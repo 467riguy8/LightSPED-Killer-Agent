@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit Refined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    </head>
+<body class="bg-primary text-white">
+
+    <div class="background-animation"></div>
+
+    <nav id="sidebar" class="sidebar frosted-glass">
+        <div class="sidebar-header">
+            <h2 class="text-2xl font-bold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                Orbit
+            </h2>
+        </div>
+        <ul id="sidebarLinks" class="sidebar-links">
+            <li><a href="#" data-section="mainContent" class="active"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg><span>Home</span></a></li>
+            <li><a href="#" data-section="gamesSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Games</span></a></li>
+            <li><a href="#" data-section="appsSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg><span>Apps</span></a></li>
+            <li><a href="#" data-section="vmSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" /></svg><span>VM</span></a></li>
+            <li><a href="#" data-section="musicSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" /></svg><span>Music</span></a></li>
+        </ul>
+    </nav>
+
+    <div id="topBar" class="top-bar-wrapper frosted-glass">
+        <div class="top-icons">
+            <button id="sidebarToggle" class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></button>
+            <button class="icon-button" id="backButton"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
+            <button class="icon-button" id="forwardButton"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
+            <button class="icon-button" id="reloadButton"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M20 4s-1.5-2-4-2-4 2-4 2M4 20s1.5 2 4 2 4-2 4-2" /></svg></button>
+        </div>
+        <div class="url-container">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <input type="text" id="urlBar" placeholder="Search or enter address" onkeydown="handleUrlBarEnter(event)">
+        </div>
+        <div class="battery-time">
+            <span id="batteryLevel">--%</span>
+            <span id="currentTime">--:-- --</span>
+        </div>
+    </div>
+
+    <main class="content-area">
+        <section id="mainContent" class="page-section active">
+            <h1 class="main-title">Orbit</h1>
+            <p class="subtitle">A better way to browse the web.</p>
+            <div class="ping frosted-glass">
+                <span class="green">ping: 12ms</span> ❤️ Hope you enjoy Orbit
+            </div>
+            <div class="socials">
+                <div class="quick-action-card" data-section="gamesSection">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>Games</span>
+                </div>
+                 </div>
+        </section>
+
+        <section id="gamesSection" class="page-section">
+            <h1 class="page-title">🎮 Games Hub</h1>
+            <div class="game-iframe-wrapper frosted-glass">
+                <iframe srcdoc="<style>body{display:grid;place-content:center;font-family:sans-serif;background:#111;color:white;text-align:center;}h1{font-size:3rem;}</style><h1>Game Content Area</h1><p>Embed your game here.</p>" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="appsSection" class="page-section">
+            <h1 class="page-title">📱 Application Hub</h1>
+             <div class="app-grid">
+                <a href="#" class="app-card">
+                    <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/youtube.svg" alt="YouTube">
+                    <h3>YouTube</h3>
+                    <p>Video streaming</p>
+                </a>
+                </div>
+        </section>
+        
+        </main>
+
+    <div id="iframeContainer">
+        <iframe id="contentIframe" src="about:blank" allowfullscreen></iframe>
+    </div>
+
+</body>
+</html>
