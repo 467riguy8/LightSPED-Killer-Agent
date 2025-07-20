@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit Proxy - Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            color: #e2e8f0;
+            overflow: hidden; /* Prevent scrollbars from canvas */
+        }
+
+        /* Particle Canvas Styling */
+        #particleCanvas {
+            position: fixed; /* Fixed position to cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Send it behind other content */
+            background-color: #1a202c; /* Match body background */
+        }
+
+        /* Ensure main content is above the canvas */
+        .content-wrapper {
+            position: relative; /* Needed for z-index to work */
+            z-index: 0; /* Keep content above the canvas */
+            min-height: 100vh; /* Ensure content wrapper fills viewport */
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Content Wrapper to ensure elements are above the canvas -->
+    <div class="content-wrapper">
+        <!-- Navigation Bar -->
+        <nav class="bg-gray-800 p-4 shadow-lg">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="index.html" class="text-white text-3xl font-bold rounded-lg p-2 hover:bg-gray-700 transition duration-300">Orbit</a>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="games.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Games</span>
+                    </a>
+                    <a href="apps.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                        <i class="fas fa-th-large"></i>
+                        <span>Apps</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow flex items-center justify-center p-4">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold mb-4">Games</h1>
+                <p class="text-lg text-gray-300">This is where your awesome games will be!</p>
+                <img src="https://placehold.co/400x200/2d3748/e2e8f0?text=Exciting+Games+Coming+Soon!" alt="Games Placeholder" class="mt-8 mx-auto rounded-lg shadow-md">
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm shadow-inner">
+            <div class="container mx-auto">
+                &copy; 2025 Orbit Proxy. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- Particle Background Animation ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const numParticles = 100; // Number of particles
+        const maxDistance = 100; // Max distance for lines to connect particles
+
+        // Function to set canvas dimensions
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Particle constructor
+        function Particle(x, y, radius, color, velocityX, velocityY) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.velocityX = velocityX;
+            this.velocityY = velocityY;
+        }
+
+        // Draw particle
+        Particle.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        };
+
+        // Update particle position and handle collisions
+        Particle.prototype.update = function() {
+            // Bounce off walls
+            if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                this.velocityX = -this.velocityX;
+            }
+            if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                this.velocityY = -this.velocityY;
+            }
+
+            this.x += this.velocityX;
+            this.y += this.velocityY;
+
+            this.draw();
+        };
+
+        // Initialize particles
+        function initParticles() {
+            particles = []; // Clear existing particles
+            for (let i = 0; i < numParticles; i++) {
+                const radius = Math.random() * 2 + 1; // Random radius between 1 and 3
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const velocityX = (Math.random() - 0.5) * 0.5; // Random velocity between -0.25 and 0.25
+                const velocityY = (Math.random() - 0.5) * 0.5;
+                const color = 'rgba(255, 255, 255, 0.8)'; // White particles with some transparency
+                particles.push(new Particle(x, y, radius, color, velocityX, velocityY));
+            }
+        }
+
+        // Connect particles with lines
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+                    const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+
+                    if (distance < maxDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        // Line opacity based on distance
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - (distance / maxDistance)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+            connectParticles(); // Draw lines first
+
+            particles.forEach(particle => {
+                particle.update(); // Update and draw particles
+            });
+        }
+
+        // Event listener for window resize
+        window.addEventListener('resize', () => {
+            setCanvasSize();
+            initParticles(); // Re-initialize particles on resize to fit new dimensions
+        });
+
+        // Initialize on window load
+        window.onload = function() {
+            setCanvasSize();
+            initParticles();
+            animate();
+        };
+    </script>
+</body>
+</html>
