@@ -3,85 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbit Refined</title>
+    <title>Orbit Proxy</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    </head>
-<body class="bg-primary text-white">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for the Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text color */
+            overflow: hidden; /* Prevent scrollbars from canvas */
+        }
 
-    <div class="background-animation"></div>
+        /* Particle Canvas Styling */
+        #particleCanvas {
+            position: fixed; /* Fixed position to cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Send it behind other content */
+            background-color: #1a202c; /* Match body background */
+        }
 
-    <nav id="sidebar" class="sidebar frosted-glass">
-        <div class="sidebar-header">
-            <h2 class="text-2xl font-bold flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                Orbit
-            </h2>
-        </div>
-        <ul id="sidebarLinks" class="sidebar-links">
-            <li><a href="#" data-section="mainContent" class="active"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg><span>Home</span></a></li>
-            <li><a href="#" data-section="gamesSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Games</span></a></li>
-            <li><a href="#" data-section="appsSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg><span>Apps</span></a></li>
-            <li><a href="#" data-section="vmSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" /></svg><span>VM</span></a></li>
-            <li><a href="#" data-section="musicSection"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" /></svg><span>Music</span></a></li>
-        </ul>
-    </nav>
+        /* Ensure main content is above the canvas */
+        .content-wrapper {
+            position: relative; /* Needed for z-index to work */
+            z-index: 0; /* Keep content above the canvas */
+            min-height: 100vh; /* Ensure content wrapper fills viewport */
+            display: flex;
+            flex-direction: column;
+        }
 
-    <div id="topBar" class="top-bar-wrapper frosted-glass">
-        <div class="top-icons">
-            <button id="sidebarToggle" class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></button>
-            <button class="icon-button" id="backButton"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
-            <button class="icon-button" id="forwardButton"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
-            <button class="icon-button" id="reloadButton"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M20 4s-1.5-2-4-2-4 2-4 2M4 20s1.5 2 4 2 4-2 4-2" /></svg></button>
-        </div>
-        <div class="url-container">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-            <input type="text" id="urlBar" placeholder="Search or enter address" onkeydown="handleUrlBarEnter(event)">
-        </div>
-        <div class="battery-time">
-            <span id="batteryLevel">--%</span>
-            <span id="currentTime">--:-- --</span>
-        </div>
-    </div>
+        /* Basic styling for the proxy input */
+        .proxy-container {
+            background-color: #2d3748; /* Slightly lighter dark background for container */
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba[0, 0, 0, 0.1];
+        }
+        .proxy-input {
+            background-color: #4a5568; /* Darker input background */
+            border: 1px solid #718096;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+        }
+        .proxy-button {
+            background-color: #63b3ed; /* Blue button */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .proxy-button:hover {
+            background-color: #4299e1; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
 
-    <main class="content-area">
-        <section id="mainContent" class="page-section active">
-            <h1 class="main-title">Orbit</h1>
-            <p class="subtitle">A better way to browse the web.</p>
-            <div class="ping frosted-glass">
-                <span class="green">ping: 12ms</span> ❤️ Hope you enjoy Orbit
-            </div>
-            <div class="socials">
-                <div class="quick-action-card" data-section="gamesSection">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <span>Games</span>
+    <!-- Content Wrapper to ensure elements are above the canvas -->
+    <div class="content-wrapper">
+        <!-- Navigation Bar -->
+        <nav class="bg-gray-800 p-4 shadow-lg">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="index.html" class="text-white text-3xl font-bold rounded-lg p-2 hover:bg-gray-700 transition duration-300">Orbit</a>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="games.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Games</span>
+                    </a>
+                    <a href="apps.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                        <i class="fas fa-th-large"></i>
+                        <span>Apps</span>
+                    </a>
                 </div>
-                 </div>
-        </section>
-
-        <section id="gamesSection" class="page-section">
-            <h1 class="page-title">🎮 Games Hub</h1>
-            <div class="game-iframe-wrapper frosted-glass">
-                <iframe srcdoc="<style>body{display:grid;place-content:center;font-family:sans-serif;background:#111;color:white;text-align:center;}h1{font-size:3rem;}</style><h1>Game Content Area</h1><p>Embed your game here.</p>" allowfullscreen></iframe>
             </div>
-        </section>
+        </nav>
 
-        <section id="appsSection" class="page-section">
-            <h1 class="page-title">📱 Application Hub</h1>
-             <div class="app-grid">
-                <a href="#" class="app-card">
-                    <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/youtube.svg" alt="YouTube">
-                    <h3>YouTube</h3>
-                    <p>Video streaming</p>
-                </a>
+        <!-- Main Content Area -->
+        <main class="flex-grow flex items-center justify-center p-4">
+            <div class="proxy-container max-w-2xl w-full p-8 text-center">
+                <h1 class="text-4xl font-extrabold mb-6 text-white">Welcome to Orbit Proxy</h1>
+                <p class="text-lg text-gray-300 mb-8">Access the web freely and securely.</p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <input type="text" id="proxyUrl" class="proxy-input flex-grow" placeholder="Enter URL (e.g., google.com, youtube.com)">
+                    <button id="goButton" class="proxy-button">Go</button>
                 </div>
-        </section>
-        
+                <p class="text-sm text-gray-400 mt-4">Note: This is a client-side demonstration. Actual proxy functionality requires a server-side implementation.</p>
+
+                <!-- Placeholder for proxy output (e.g., an iframe) -->
+                <div id="proxyOutput" class="mt-8 bg-gray-700 rounded-lg p-4 hidden">
+                    <p class="text-gray-300">Content will load here...</p>
+                    <!-- An iframe would typically be used here to display the proxied content -->
+                    <!-- <iframe id="proxyFrame" src="" class="w-full h-96 border-none rounded-md"></iframe> -->
+                </div>
+            </div>
         </main>
 
-    <div id="iframeContainer">
-        <iframe id="contentIframe" src="about:blank" allowfullscreen></iframe>
+        <!-- Footer -->
+        <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm shadow-inner">
+            <div class="container mx-auto">
+                &copy; 2025 Orbit Proxy. All rights reserved.
+            </div>
+        </footer>
     </div>
 
+    <script>
+        // --- Proxy functionality (from previous version) ---
+        document.getElementById('goButton').addEventListener('click', function() {
+            const urlInput = document.getElementById('proxyUrl');
+            let url = urlInput.value.trim();
+
+            if (url) {
+                // Prepend 'http://' if no protocol is specified
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'http://' + url;
+                }
+                const proxyOutputDiv = document.getElementById('proxyOutput');
+                proxyOutputDiv.classList.remove('hidden');
+                proxyOutputDiv.innerHTML = `<p class="text-gray-300">Attempting to proxy: <span class="font-bold text-white">${url}</span></p><p class="text-sm text-gray-400 mt-2"> (Actual proxying requires a backend server.)</p>`;
+            } else {
+                // Using a simple alert for demonstration. For production, use a custom modal.
+                alert('Please enter a URL to proxy.');
+            }
+        });
+
+        // --- Particle Background Animation ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const numParticles = 100; // Number of particles
+        const maxDistance = 100; // Max distance for lines to connect particles
+
+        // Function to set canvas dimensions
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Particle constructor
+        function Particle(x, y, radius, color, velocityX, velocityY) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.velocityX = velocityX;
+            this.velocityY = velocityY;
+        }
+
+        // Draw particle
+        Particle.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        };
+
+        // Update particle position and handle collisions
+        Particle.prototype.update = function() {
+            // Bounce off walls
+            if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                this.velocityX = -this.velocityX;
+            }
+            if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                this.velocityY = -this.velocityY;
+            }
+
+            this.x += this.velocityX;
+            this.y += this.velocityY;
+
+            this.draw();
+        };
+
+        // Initialize particles
+        function initParticles() {
+            particles = []; // Clear existing particles
+            for (let i = 0; i < numParticles; i++) {
+                const radius = Math.random() * 2 + 1; // Random radius between 1 and 3
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const velocityX = (Math.random() - 0.5) * 0.5; // Random velocity between -0.25 and 0.25
+                const velocityY = (Math.random() - 0.5) * 0.5;
+                const color = 'rgba(255, 255, 255, 0.8)'; // White particles with some transparency
+                particles.push(new Particle(x, y, radius, color, velocityX, velocityY));
+            }
+        }
+
+        // Connect particles with lines
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+                    const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+
+                    if (distance < maxDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        // Line opacity based on distance
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - (distance / maxDistance)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+            connectParticles(); // Draw lines first
+
+            particles.forEach(particle => {
+                particle.update(); // Update and draw particles
+            });
+        }
+
+        // Event listener for window resize
+        window.addEventListener('resize', () => {
+            setCanvasSize();
+            initParticles(); // Re-initialize particles on resize to fit new dimensions
+        });
+
+        // Initialize on window load
+        window.onload = function() {
+            setCanvasSize();
+            initParticles();
+            animate();
+        };
+    </script>
 </body>
 </html>
