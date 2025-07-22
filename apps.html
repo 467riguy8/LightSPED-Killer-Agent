@@ -9,184 +9,158 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            color: #e2e8f0;
-            overflow: hidden; /* Prevent scrollbars from canvas */
-        }
-
-        /* Particle Canvas Styling */
-        #particleCanvas {
-            position: fixed; /* Fixed position to cover the entire viewport */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Send it behind other content */
-            background-color: #1a202c; /* Match body background */
-        }
-
-        /* Ensure main content is above the canvas */
-        .content-wrapper {
-            position: relative; /* Needed for z-index to work */
-            z-index: 0; /* Keep content above the canvas */
-            min-height: 100vh; /* Ensure content wrapper fills viewport */
+            background-color: #0a0f18; /* Very dark, cool background */
+            color: #e2e8f0; /* Light text color */
+            min-height: 100vh; /* Ensure body fills viewport */
             display: flex;
             flex-direction: column;
+        }
+
+        /* Ice Effect for Content Cards */
+        .content-card {
+            background-color: rgba(255, 255, 255, 0.05); /* Very subtle transparency */
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.2), /* Icy blue glow */
+                        0 0 10px rgba(0, 200, 255, 0.1) inset; /* Inner glow for depth */
+            border: 1px solid rgba(173, 216, 230, 0.3); /* More prominent icy border */
+            border-image: linear-gradient(45deg, rgba(173, 216, 230, 0.3) 0%, transparent 20%, rgba(173, 216, 230, 0.3) 40%, transparent 60%, rgba(173, 216, 230, 0.3) 80%, transparent 100%) 1;
+            border-image-slice: 1;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 200, 255, 0.5),
+                        0 0 20px rgba(0, 200, 255, 0.3) inset;
+        }
+
+        /* Adjust Nav and Footer for subtle ice transparency and sharp edges */
+        nav {
+            background-color: rgba(15, 20, 30, 0.7); /* Darker, slightly transparent */
+            border-bottom: 1px solid rgba(173, 216, 230, 0.15); /* Subtle icy border */
+            box-shadow: 0 4px 15px rgba(0, 200, 255, 0.1);
+        }
+        footer {
+            background-color: rgba(15, 20, 30, 0.7); /* Darker, slightly transparent */
+            border-top: 1px solid rgba(173, 216, 230, 0.15); /* Subtle icy border */
+            box-shadow: 0 -4px 15px rgba(0, 200, 255, 0.1);
+        }
+
+        /* Ensure main content can scroll */
+        main {
+            flex-grow: 1; /* Allow main to take available space */
+            padding: 2rem 1rem; /* Add padding around the content */
+            overflow-y: auto; /* Enable vertical scrolling if content overflows */
         }
     </style>
 </head>
 <body>
-    <!-- Particle Canvas -->
-    <canvas id="particleCanvas"></canvas>
-
-    <!-- Content Wrapper to ensure elements are above the canvas -->
-    <div class="content-wrapper">
-        <!-- Navigation Bar -->
-        <nav class="bg-gray-800 p-4 shadow-lg">
-            <div class="container mx-auto flex justify-between items-center">
-                <a href="index.html" class="text-white text-3xl font-bold rounded-lg p-2 hover:bg-gray-700 transition duration-300">Orbit</a>
-                <div class="flex space-x-6">
-                    <a href="index.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="games.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                        <i class="fas fa-gamepad"></i>
-                        <span>Games</span>
-                    </a>
-                    <a href="apps.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                        <i class="fas fa-th-large"></i>
-                        <span>Apps</span>
-                    </a>
-                </div>
+    <!-- Navigation Bar -->
+    <nav class="p-4 shadow-lg sticky top-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-white text-3xl font-bold rounded-lg p-2 hover:bg-gray-700 transition duration-300">Orbit</a>
+            <div class="flex space-x-6">
+                <a href="index.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="games.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Games</span>
+                </a>
+                <a href="apps.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                    <i class="fas fa-th-large"></i>
+                    <span>Apps</span>
+                </a>
+                <a href="vm.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                    <i class="fas fa-server"></i>
+                    <span>VM</span>
+                </a>
+                <a href="music.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                    <i class="fas fa-music"></i>
+                    <span>Music</span>
+                </a>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Main Content Area -->
-        <main class="flex-grow flex items-center justify-center p-4">
-            <div class="text-center">
-                <h1 class="text-4xl font-extrabold mb-4">Apps</h1>
-                <p class="text-lg text-gray-300">Here you'll find various useful web apps.</p>
-                <img src="https://placehold.co/400x200/2d3748/e2e8f0?text=Cool+Apps+Coming+Soon!" alt="Apps Placeholder" class="mt-8 mx-auto rounded-lg shadow-md">
+    <!-- Main Content Area -->
+    <main class="container mx-auto">
+        <h1 class="text-5xl font-extrabold mb-12 text-center text-white mt-8">Discover Our Apps</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- App Card 1 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+1" alt="App 1 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">Task Manager</h2>
+                <p class="text-gray-300 text-sm">Organize your daily tasks efficiently.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
             </div>
-        </main>
 
-        <!-- Footer -->
-        <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm shadow-inner">
-            <div class="container mx-auto">
-                &copy; 2025 Orbit Proxy. All rights reserved.
+            <!-- App Card 2 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+2" alt="App 2 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">Weather Forecast</h2>
+                <p class="text-gray-300 text-sm">Get real-time weather updates for any city.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
             </div>
-        </footer>
-    </div>
 
-    <script>
-        // --- Particle Background Animation ---
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
+            <!-- App Card 3 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+3" alt="App 3 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">Unit Converter</h2>
+                <p class="text-gray-300 text-sm">Convert between various units quickly.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
+            </div>
 
-        let particles = [];
-        const numParticles = 100; // Number of particles
-        const maxDistance = 100; // Max distance for lines to connect particles
+            <!-- App Card 4 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+4" alt="App 4 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">Notes & Reminders</h2>
+                <p class="text-gray-300 text-sm">Keep track of your thoughts and important dates.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
+            </div>
 
-        // Function to set canvas dimensions
-        function setCanvasSize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+            <!-- App Card 5 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+5" alt="App 5 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">Calculator</h2>
+                <p class="text-gray-300 text-sm">A simple yet powerful calculator for all needs.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
+            </div>
 
-        // Particle constructor
-        function Particle(x, y, radius, color, velocityX, velocityY) {
-            this.x = x;
-            this.y = y;
-            this.radius = radius;
-            this.color = color;
-            this.velocityX = velocityX;
-            this.velocityY = velocityY;
-        }
+            <!-- App Card 6 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+6" alt="App 6 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">World Clock</h2>
+                <p class="text-gray-300 text-sm">View times across different time zones.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
+            </div>
 
-        // Draw particle
-        Particle.prototype.draw = function() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-        };
+            <!-- App Card 7 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+7" alt="App 7 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">Currency Converter</h2>
+                <p class="text-gray-300 text-sm">Convert currencies with live exchange rates.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
+            </div>
 
-        // Update particle position and handle collisions
-        Particle.prototype.update = function() {
-            // Bounce off walls
-            if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-                this.velocityX = -this.velocityX;
-            }
-            if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-                this.velocityY = -this.velocityY;
-            }
+            <!-- App Card 8 -->
+            <div class="content-card">
+                <img src="https://placehold.co/300x200/2d3748/e2e8f0?text=App+8" alt="App 8 Thumbnail" class="mx-auto rounded-md mb-4 shadow-lg">
+                <h2 class="text-2xl font-bold mb-2">QR Code Generator</h2>
+                <p class="text-gray-300 text-sm">Create QR codes for text or URLs.</p>
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Launch App</button>
+            </div>
+        </div>
+    </main>
 
-            this.x += this.velocityX;
-            this.y += this.velocityY;
-
-            this.draw();
-        };
-
-        // Initialize particles
-        function initParticles() {
-            particles = []; // Clear existing particles
-            for (let i = 0; i < numParticles; i++) {
-                const radius = Math.random() * 2 + 1; // Random radius between 1 and 3
-                const x = Math.random() * (canvas.width - radius * 2) + radius;
-                const y = Math.random() * (canvas.height - radius * 2) + radius;
-                const velocityX = (Math.random() - 0.5) * 0.5; // Random velocity between -0.25 and 0.25
-                const velocityY = (Math.random() - 0.5) * 0.5;
-                const color = 'rgba(255, 255, 255, 0.8)'; // White particles with some transparency
-                particles.push(new Particle(x, y, radius, color, velocityX, velocityY));
-            }
-        }
-
-        // Connect particles with lines
-        function connectParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i; j < particles.length; j++) {
-                    const p1 = particles[i];
-                    const p2 = particles[j];
-                    const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-
-                    if (distance < maxDistance) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        // Line opacity based on distance
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - (distance / maxDistance)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-
-            connectParticles(); // Draw lines first
-
-            particles.forEach(particle => {
-                particle.update(); // Update and draw particles
-            });
-        }
-
-        // Event listener for window resize
-        window.addEventListener('resize', () => {
-            setCanvasSize();
-            initParticles(); // Re-initialize particles on resize to fit new dimensions
-        });
-
-        // Initialize on window load
-        window.onload = function() {
-            setCanvasSize();
-            initParticles();
-            animate();
-        };
-    </script>
+    <!-- Footer -->
+    <footer class="p-4 text-center text-gray-400 text-sm shadow-inner mt-auto">
+        <div class="container mx-auto">
+            &copy; 2025 Orbit Proxy. All rights reserved.
+        </div>
+    </footer>
 </body>
 </html>
