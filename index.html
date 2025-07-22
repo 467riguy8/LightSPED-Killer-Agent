@@ -34,8 +34,7 @@
             border-image-slice: 1; /* Ensure border-image covers the entire border */
         }
 
-        /* Adjust Nav and Footer for subtle ice transparency and sharp edges */
-        /* REMOVED original nav styles as they will be replaced by the floating nav */
+        /* Footer styles remain */
         footer {
             background-color: rgba(15, 20, 30, 0.7); /* Darker, slightly transparent */
             border-top: 1px solid rgba(173, 216, 230, 0.15); /* Subtle icy border */
@@ -64,79 +63,112 @@
             box-shadow: 0 4px 10px rgba(66, 153, 225, 0.6);
         }
 
-        /* --- Custom Floating Navbar Styles --- */
-        .floating-navbar {
+        /* --- Custom Floating Top Navbar Styles --- */
+        .floating-navbar-top {
             position: fixed; /* Makes it float */
-            bottom: 20px; /* Adjust distance from bottom as needed */
+            top: 20px; /* Adjust distance from top as needed */
             left: 50%; /* Center horizontally */
             transform: translateX(-50%); /* Precisely center horizontally */
+            width: fit-content; /* Make it fit its content */
+            max-width: 90%; /* Prevent it from getting too wide on smaller screens */
             background-color: rgba(255, 255, 255, 0.1); /* Very light, subtle transparency */
             backdrop-filter: blur(15px); /* Frosted glass effect */
             -webkit-backdrop-filter: blur(15px); /* Safari support */
             border-radius: 9999px; /* Make it pill-shaped (full rounded) */
-            padding: 10px 20px; /* Adjust padding to make it wider/narrower */
+            padding: 10px 20px; /* Adjust padding */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), /* Stronger shadow for depth */
                         0 0 15px rgba(255, 255, 255, 0.1) inset; /* Inner light glow */
             z-index: 1000; /* Ensure it's on top */
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 1.5rem; /* Space between icons using Tailwind's `space-x-6` equivalent */
+            justify-content: space-between; /* Space out brand and links */
+            gap: 1.5rem; /* Space between links */
             border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle light border */
         }
 
-        .floating-navbar a {
+        .floating-navbar-top .navbar-brand {
+            font-size: 1.5em; /* Adjust brand size */
+            font-weight: bold;
+            color: #e2e8f0;
+            margin-right: 1.5rem; /* Space between brand and nav links */
+            padding: 0 10px; /* Add some padding around the brand */
+        }
+
+        .floating-navbar-top .nav-links {
+            display: flex;
+            gap: 1.5rem; /* Space between icons */
+        }
+
+        .floating-navbar-top a {
             color: #e2e8f0; /* Light text color for icons */
             font-size: 1.5rem; /* Adjust icon size */
             padding: 0.5rem;
             transition: transform 0.2s ease-in-out, background-color 0.2s ease;
             border-radius: 9999px; /* Make individual icons pill-shaped */
+            display: flex; /* Ensure icons are centered within their padding */
+            align-items: center;
+            justify-content: center;
         }
 
-        .floating-navbar a:hover {
+        .floating-navbar-top a:hover {
             transform: translateY(-3px); /* Subtle lift on hover */
             background-color: rgba(255, 255, 255, 0.15); /* Slight background on hover */
             color: white; /* Make icon fully white on hover */
         }
 
-        /* Hide text on floating navbar, only show icons */
-        .floating-navbar a span {
-            display: none;
-        }
-
         /* Adjustments for the main content to avoid overlap with the floating navbar */
         main {
-            padding-bottom: 100px; /* Add space at the bottom to prevent content being hidden */
+            padding-top: 100px; /* Add space at the top to prevent content being hidden */
         }
 
-        /* Style for the 'Orbit' brand text to match the reference image's top bar */
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(15, 20, 30, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 200, 255, 0.1);
-            z-index: 999; /* Slightly lower than floating nav */
-            padding: 1rem 0;
-            text-align: center;
-        }
-
-        .top-bar .navbar-brand {
-            font-size: 1.5em; /* Adjust size as needed */
-            font-weight: bold;
-            color: #e2e8f0;
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .floating-navbar-top {
+                flex-direction: column; /* Stack items vertically on smaller screens */
+                padding: 15px 10px;
+                border-radius: 1rem; /* Slightly less rounded when stacked */
+                top: 10px; /* Adjust top position for smaller screens */
+            }
+            .floating-navbar-top .navbar-brand {
+                margin-right: 0;
+                margin-bottom: 10px; /* Space below brand when stacked */
+            }
+            .floating-navbar-top .nav-links {
+                flex-wrap: wrap; /* Allow links to wrap */
+                justify-content: center;
+                gap: 1rem; /* Reduce gap */
+            }
+            .floating-navbar-top a {
+                font-size: 1.2rem; /* Slightly smaller icons */
+                padding: 0.4rem;
+            }
+            main {
+                padding-top: 180px; /* Increase padding for stacked navbar */
+            }
         }
     </style>
 </head>
 <body>
-    <div class="top-bar">
+    <nav class="floating-navbar-top">
         <a href="index.html" class="navbar-brand">Orbit</a>
-    </div>
+        <div class="nav-links">
+            <a href="index.html" title="Home">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="games.html" title="Games">
+                <i class="fas fa-gamepad"></i>
+            </a>
+            <a href="apps.html" title="Apps">
+                <i class="fas fa-th-large"></i>
+            </a>
+            <a href="vm.html" title="VM">
+                <i class="fas fa-server"></i>
+            </a>
+            <a href="music.html" title="Music">
+                <i class="fas fa-music"></i>
+            </a>
+        </div>
+    </nav>
 
     <main class="flex-grow flex items-center justify-center p-4">
         <div class="proxy-container max-w-2xl w-full p-8 text-center">
@@ -147,36 +179,13 @@
                 <input type="text" id="proxyUrl" class="proxy-input flex-grow" placeholder="Enter URL (e.g., google.com, youtube.com)">
                 <button id="goButton" class="proxy-button">Go</button>
             </div>
-            <p class="text-sm text-gray-400 mt-4">Note: This is a client-side demonstration. Actual proxy functionality requires a server-side implementation.</p>
+            <p class="text-sm text-gray-400 mt-4">Note: This is a client-side demonstration. Actual proxy functionality requires a backend server.</p>
 
             <div id="proxyOutput" class="mt-8 bg-gray-700 rounded-lg p-4 hidden">
                 <p class="text-gray-300">Content will load here...</p>
             </div>
         </div>
     </main>
-
-    <nav class="floating-navbar">
-        <a href="index.html" title="Home">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="games.html" title="Games">
-            <i class="fas fa-gamepad"></i>
-            <span>Games</span>
-        </a>
-        <a href="apps.html" title="Apps">
-            <i class="fas fa-th-large"></i>
-            <span>Apps</span>
-        </a>
-        <a href="vm.html" title="VM">
-            <i class="fas fa-server"></i>
-            <span>VM</span>
-        </a>
-        <a href="music.html" title="Music">
-            <i class="fas fa-music"></i>
-            <span>Music</span>
-        </a>
-    </nav>
 
     <footer class="p-4 text-center text-gray-400 text-sm shadow-inner mt-auto">
         <div class="container mx-auto">
