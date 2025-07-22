@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orbit - Home</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Custom styles for the Inter font */
@@ -17,6 +15,11 @@
             min-height: 100vh; /* Ensure body fills viewport */
             display: flex;
             flex-direction: column;
+            /* Added for the background image to match the reference */
+            background-image: url('https://via.placeholder.com/1920x1080/0d1326/0a0f18?text='); /* Placeholder for a dark space background */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Ensures background stays fixed during scroll */
         }
 
         /* Ice Effect for Proxy Container */
@@ -32,11 +35,7 @@
         }
 
         /* Adjust Nav and Footer for subtle ice transparency and sharp edges */
-        nav {
-            background-color: rgba(15, 20, 30, 0.7); /* Darker, slightly transparent */
-            border-bottom: 1px solid rgba(173, 216, 230, 0.15); /* Subtle icy border */
-            box-shadow: 0 4px 15px rgba(0, 200, 255, 0.1);
-        }
+        /* REMOVED original nav styles as they will be replaced by the floating nav */
         footer {
             background-color: rgba(15, 20, 30, 0.7); /* Darker, slightly transparent */
             border-top: 1px solid rgba(173, 216, 230, 0.15); /* Subtle icy border */
@@ -64,39 +63,81 @@
             background-color: #4299e1; /* Darker blue on hover */
             box-shadow: 0 4px 10px rgba(66, 153, 225, 0.6);
         }
+
+        /* --- Custom Floating Navbar Styles --- */
+        .floating-navbar {
+            position: fixed; /* Makes it float */
+            bottom: 20px; /* Adjust distance from bottom as needed */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Precisely center horizontally */
+            background-color: rgba(255, 255, 255, 0.1); /* Very light, subtle transparency */
+            backdrop-filter: blur(15px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(15px); /* Safari support */
+            border-radius: 9999px; /* Make it pill-shaped (full rounded) */
+            padding: 10px 20px; /* Adjust padding to make it wider/narrower */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), /* Stronger shadow for depth */
+                        0 0 15px rgba(255, 255, 255, 0.1) inset; /* Inner light glow */
+            z-index: 1000; /* Ensure it's on top */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem; /* Space between icons using Tailwind's `space-x-6` equivalent */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle light border */
+        }
+
+        .floating-navbar a {
+            color: #e2e8f0; /* Light text color for icons */
+            font-size: 1.5rem; /* Adjust icon size */
+            padding: 0.5rem;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease;
+            border-radius: 9999px; /* Make individual icons pill-shaped */
+        }
+
+        .floating-navbar a:hover {
+            transform: translateY(-3px); /* Subtle lift on hover */
+            background-color: rgba(255, 255, 255, 0.15); /* Slight background on hover */
+            color: white; /* Make icon fully white on hover */
+        }
+
+        /* Hide text on floating navbar, only show icons */
+        .floating-navbar a span {
+            display: none;
+        }
+
+        /* Adjustments for the main content to avoid overlap with the floating navbar */
+        main {
+            padding-bottom: 100px; /* Add space at the bottom to prevent content being hidden */
+        }
+
+        /* Style for the 'Orbit' brand text to match the reference image's top bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(15, 20, 30, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 200, 255, 0.1);
+            z-index: 999; /* Slightly lower than floating nav */
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .top-bar .navbar-brand {
+            font-size: 1.5em; /* Adjust size as needed */
+            font-weight: bold;
+            color: #e2e8f0;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="p-4 shadow-lg sticky top-0 z-10">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="index.html" class="text-white text-3xl font-bold rounded-lg p-2 hover:bg-gray-700 transition duration-300">Orbit</a>
-            <div class="flex space-x-6">
-                <a href="index.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="games.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                    <i class="fas fa-gamepad"></i>
-                    <span>Games</span>
-                </a>
-                <a href="apps.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                    <i class="fas fa-th-large"></i>
-                    <span>Apps</span>
-                </a>
-                <a href="vm.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                    <i class="fas fa-server"></i>
-                    <span>VM</span>
-                </a>
-                <a href="music.html" class="text-gray-300 hover:text-white flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-300">
-                    <i class="fas fa-music"></i>
-                    <span>Music</span>
-                </a>
-            </div>
-        </div>
-    </nav>
+    <div class="top-bar">
+        <a href="index.html" class="navbar-brand">Orbit</a>
+    </div>
 
-    <!-- Main Content Area -->
     <main class="flex-grow flex items-center justify-center p-4">
         <div class="proxy-container max-w-2xl w-full p-8 text-center">
             <h1 class="text-4xl font-extrabold mb-6 text-white">Welcome to Orbit Proxy</h1>
@@ -108,17 +149,38 @@
             </div>
             <p class="text-sm text-gray-400 mt-4">Note: This is a client-side demonstration. Actual proxy functionality requires a server-side implementation.</p>
 
-            <!-- Placeholder for proxy output (e.g., an iframe) -->
             <div id="proxyOutput" class="mt-8 bg-gray-700 rounded-lg p-4 hidden">
                 <p class="text-gray-300">Content will load here...</p>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
+    <nav class="floating-navbar">
+        <a href="index.html" title="Home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="games.html" title="Games">
+            <i class="fas fa-gamepad"></i>
+            <span>Games</span>
+        </a>
+        <a href="apps.html" title="Apps">
+            <i class="fas fa-th-large"></i>
+            <span>Apps</span>
+        </a>
+        <a href="vm.html" title="VM">
+            <i class="fas fa-server"></i>
+            <span>VM</span>
+        </a>
+        <a href="music.html" title="Music">
+            <i class="fas fa-music"></i>
+            <span>Music</span>
+        </a>
+    </nav>
+
     <footer class="p-4 text-center text-gray-400 text-sm shadow-inner mt-auto">
         <div class="container mx-auto">
-            &copy; 2025 Orbit Proxy. All rights reserved.
+            © 2025 Orbit Proxy. All rights reserved.
         </div>
     </footer>
 
